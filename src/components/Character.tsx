@@ -1,17 +1,21 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 
 interface iProps {
     name: string;
     image: string;
+    // children?: React.ReactNode;
 }
 
-const Character:FC<iProps> = (props) => {
-    let {name, image} = props;
+type PropsWithChildren<T> = T & {children?: ReactNode};
+
+const Character:FC<PropsWithChildren<iProps>> = ({name, image, children}) => {
+
 
     return (
         <div>
             <h2>{name}</h2>
             <img src={image} alt={name}/>
+            <p>{children}</p>
         </div>
     );
 };
