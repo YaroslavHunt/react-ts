@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import React from "react";
 import TodosPage from "./pages/TodosPage";
 import TodoPage from "./pages/TodoPage";
+import UserPage from "./pages/UserPage";
 
 
 const root = ReactDOM.createRoot(
@@ -23,6 +24,8 @@ let router = createBrowserRouter([
         children: [
             {index: true, element: <HomePage/>},
             {path: 'users', element: <UsersPage/>},
+            {path: 'users/:id/posts', element: <PostsPage/>},
+            {path: 'users/:id', element: <UserPage/>},
             {path: 'posts', element: <PostsPage/>},
             {
                 path: 'todos', element: <TodosPage/>, children: [
