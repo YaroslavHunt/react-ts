@@ -4,6 +4,7 @@ import {UserResponseModel} from "../models/UserResponseModel";
 import {TokenObtainPairModel} from "../models/TokenObtainPairModel";
 import {TokenRefreshModel} from "../models/TokenRefreshModel";
 import {retriveLocalStorageData} from "../utils/utils";
+import {CarPaginatedModel} from "../models/CarPaginatedModel";
 
 let axiosInstance = axios.create({
     baseURL: 'http://owu.linkpc.net/carsAPI/v2'
@@ -31,14 +32,16 @@ const authService = {
     authenticate: async (data:TokenObtainPairModel):Promise<void> => {
         let response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
         localStorage.setItem('TokenPair', JSON.stringify(response.data));
-
+        console.log(response.data)
     }
 }
 
 const carService = {
     getCars: async () => {
-        let response = await axiosInstance.get('/cars',);
-        console.log(response);
+        let response = await axiosInstance.get<CarPaginatedModel>('/cars');
+        let data = response.data;
+        console.log(data);
+        return data;
     }
 }
 
