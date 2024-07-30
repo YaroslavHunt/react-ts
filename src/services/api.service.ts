@@ -3,10 +3,22 @@ import {UserModel} from "../models/UserModel";
 import {UserResponseModel} from "../models/UserResponseModel";
 import {TokenObtainPairModel} from "../models/TokenObtainPairModel";
 import {TokenRefreshModel} from "../models/TokenRefreshModel";
+import {retriveLocalStorageData} from "../utils/utils";
 
 let axiosInstance = axios.create({
     baseURL: 'http://owu.linkpc.net/carsAPI/v2'
 });
+
+axiosInstance.interceptors.request.use(requestObj=>{
+
+    if(localStorage.getItem('TokenPair') && requestObj.url !== '/auth') {
+
+        requestObj.headers.set('Authorization',
+            'Bearer ' + retriveLocalStorageData<TokenRefreshModel>('tokenPair').access);
+    }
+
+    return requestObj;
+})
 
 const userService = {
     saveUser: async (data:UserModel):Promise<boolean> => {
@@ -18,10 +30,20 @@ const userService = {
 const authService = {
     authenticate: async (data:TokenObtainPairModel):Promise<void> => {
         let response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
-        console.log(response.data.access);
-        console.log(response.data.refresh);
+        localStorage.setItem('TokenPair', JSON.stringify(response.data));
 
     }
 }
 
-export {userService, authService}
+const carService = {
+    getCars: async () => {
+        let response = await axiosInstance.get('/cars',);
+        console.log(response);
+    }
+}
+
+export {
+    userService,
+    authService,
+    carService
+}

@@ -8,6 +8,8 @@ const HeaderComponent = () => {
             <ul>
                 <li><NavLink to={'/'}>Auth page</NavLink></li>
                 <li><NavLink to={'/registration'}>Registration page</NavLink></li>
+                <li><NavLink to={'/cars'}>Cars page</NavLink></li>
+
             </ul>
         </div>
     );
