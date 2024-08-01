@@ -32,7 +32,6 @@ const authService = {
     authenticate: async (data:TokenObtainPairModel):Promise<void> => {
         let response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
         localStorage.setItem('TokenPair', JSON.stringify(response.data));
-        console.log(response.data)
     },
     refresh: async () => {
         const refreshToken = retriveLocalStorageData<TokenRefreshModel>('TokenPair').refresh;
