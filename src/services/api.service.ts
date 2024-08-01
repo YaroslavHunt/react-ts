@@ -12,7 +12,7 @@ let axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(requestObj=>{
 
-    if(localStorage.getItem('TokenPair') && requestObj.url !== '/auth') {
+    if(localStorage.getItem('TokenPair') && (requestObj.url !== '/auth' && requestObj.url !== '/auth/refresh')) {
 
         requestObj.headers.set('Authorization',
             'Bearer ' + retriveLocalStorageData<TokenRefreshModel>('tokenPair').access);
@@ -33,15 +33,19 @@ const authService = {
         let response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
         localStorage.setItem('TokenPair', JSON.stringify(response.data));
         console.log(response.data)
+    },
+    refresh: async () => {
+        const refreshToken = retriveLocalStorageData<TokenRefreshModel>('TokenPair').refresh;
+        const response = await axiosInstance.post<TokenRefreshModel>('/auth/refresh',
+            {refresh: refreshToken});
+        localStorage.setItem('TokenPair', JSON.stringify(response.data));
     }
 }
 
 const carService = {
-    getCars: async () => {
-        let response = await axiosInstance.get<CarPaginatedModel>('/cars');
-        let data = response.data;
-        console.log(data);
-        return data;
+    getCars: async (page:string='1'):Promise<CarPaginatedModel> => {
+        const response = await axiosInstance.get<CarPaginatedModel>('/cars',{params: {page:page}});
+        return response.data;
     }
 }
 
