@@ -19,17 +19,15 @@ const CarsPage = () => {
         total_pages: 0
     })
     useEffect(() => {
-
         const getCarsData = async () => {
             try {
-                let response = await carService.getCars(query.get('page')||'1');
-
+                let response = await carService.getCars(query.get('page') || '1');
                 setCarPaginatedObject(response);
-
             } catch (e) {
                 const axiosError = e as AxiosError;
                 if (axiosError && axiosError?.response?.status === 401) {
                     try {
+                        console.log('refresh');
                         await authService.refresh();
                     } catch (e) {
                         return navigate('/');
@@ -39,7 +37,6 @@ const CarsPage = () => {
         }
 
         getCarsData();
-
     }, [query]);
     return (
         <div>

@@ -44,7 +44,7 @@ const authService = {
 
 const carService = {
     getCars: async (page:string='1'):Promise<CarPaginatedModel> => {
-        const response = await axiosInstance.get<CarPaginatedModel>('/cars',{params: {page:page}});
+        const response = await axiosInstance.get<CarPaginatedModel>('/cars',{params:page});
         return response.data;
     }
 }
