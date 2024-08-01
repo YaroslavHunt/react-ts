@@ -18,6 +18,7 @@ const CarsPage = () => {
         total_items: 0,
         total_pages: 0
     })
+
     useEffect(() => {
         const getCarsData = async () => {
             try {

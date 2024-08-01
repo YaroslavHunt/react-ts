@@ -1,6 +1,5 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
-import {UserModel} from "../models/UserModel";
 import {TokenObtainPairModel} from "../models/TokenObtainPairModel";
 import {authService} from "../services/api.service";
 

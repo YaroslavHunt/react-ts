@@ -10,15 +10,15 @@ let axiosInstance = axios.create({
     baseURL: 'http://owu.linkpc.net/carsAPI/v2'
 });
 
-axiosInstance.interceptors.request.use(requestObj=>{
+axiosInstance.interceptors.request.use(requestObject=>{
 
-    if(localStorage.getItem('TokenPair') && (requestObj.url !== '/auth' && requestObj.url !== '/auth/refresh')) {
+    if(localStorage.getItem('TokenPair') && (requestObject.url !== '/auth' && requestObject.url !== '/auth/refresh')) {
 
-        requestObj.headers.set('Authorization',
+        requestObject.headers.set('Authorization',
             'Bearer ' + retriveLocalStorageData<TokenRefreshModel>('tokenPair').access);
     }
 
-    return requestObj;
+    return requestObject;
 })
 
 const userService = {
@@ -30,10 +30,10 @@ const userService = {
 
 const authService = {
     authenticate: async (data:TokenObtainPairModel):Promise<void> => {
-        let response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
+        const response = await axiosInstance.post<TokenRefreshModel>('/auth', data);
         localStorage.setItem('TokenPair', JSON.stringify(response.data));
     },
-    refresh: async () => {
+    refresh: async (): Promise<void> => {
         const refreshToken = retriveLocalStorageData<TokenRefreshModel>('TokenPair').refresh;
         const response = await axiosInstance.post<TokenRefreshModel>('/auth/refresh',
             {refresh: refreshToken});

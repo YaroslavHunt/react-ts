@@ -1,5 +1,5 @@
 const retriveLocalStorageData = <T,> (key:string) => {
-    let pairJSON = localStorage.getItem(key) || '';
+    const pairJSON = localStorage.getItem(key) || '';
     if (!pairJSON) {
         return {} as T;
     }

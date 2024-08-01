@@ -6,5 +6,5 @@ export interface UserResponseModel {
     is_superuser: boolean,
     last_login: string,
     created: string,
-    updated: string,
+    updated: string
 }
